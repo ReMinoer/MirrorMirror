@@ -1,6 +1,9 @@
 
 # Created by https://www.gitignore.io/api/linux,cmake
 
+Debug/
+Release/
+
 ### Executable ###
 MirrorMirror
 
@@ -12,7 +15,6 @@ MirrorMirror
 
 # Linux trash folder which might appear on any partition or disk
 .Trash-*
-
 
 ### CMake ###
 CMakeCache.txt

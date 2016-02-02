@@ -2,15 +2,18 @@
 #include "Indexer.hpp"
 
 #define DESCRIPTOR_DATA_END "---"
+#define LINE_SIZE 99999
 
 using namespace std;
 
-Indexer::Indexer(DescriptorFactory factory)
+template<typename TDescriptor>
+Indexer<TDescriptor>::Indexer(DescriptorFactory factory)
 	: _factory(factory)
 {
 }
 		
-void Indexer::generate(const map<string, Mat> &images)
+template<typename TDescriptor>
+void Indexer<TDescriptor>::generate(const map<string, Mat> &images)
 {
 	for (map<string, Mat>::const_iterator it = images.begin(); it != images.end(); it++)
 	{
@@ -23,12 +26,13 @@ void Indexer::generate(const map<string, Mat> &images)
 	}
 }
 
-void Indexer::save(const string filename) const
+template<typename TDescriptor>
+void Indexer<TDescriptor>::save(const string filename) const
 {
 	ofstream file;
-	file.open(filename);
+	file.open(filename.c_str());
 	
-	for (map<string, TDescriptor>::const_iterator it = _descriptors.begin(); it != _descriptors.end(); it++)
+	for (typename map<string, TDescriptor>::const_iterator it = _descriptors.begin(); it != _descriptors.end(); it++)
 	{
 		string filename = it->first;
 		TDescriptor descriptor = it->second;
@@ -41,25 +45,28 @@ void Indexer::save(const string filename) const
 	file.close();
 }
 
-void Indexer::load(const string filename)
+template<typename TDescriptor>
+void Indexer<TDescriptor>::load(const string filename)
 {
 	ifstream file;
-	file.open(filename);
+	file.open(filename.c_str());
 	
-	string currentData;
+	stringstream currentData;
 	while (!file.eof())
 	{
 		char line[LINE_SIZE];
-		file.getLine(line, LINE_SIZE);
+		file.getline(line, LINE_SIZE);
 		
 		if (strstr(line, DESCRIPTOR_DATA_END))
 		{
 			TDescriptor descriptor = _factory();
 			descriptor.setData(currentData);
-			currentData = "";
+			currentData.clear();
 		}
 		else
-			currentData += line + std::endl;
+		{
+			currentData << line << std::endl;
+		}
 	}
 	
 	file.close();

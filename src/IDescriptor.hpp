@@ -1,9 +1,11 @@
 #ifndef IDESCRIPTOR
 #define IDESCRIPTOR
 
+#include <opencv2/core/core.hpp>
 #include <string>
 
 using namespace std;
+using namespace cv;
 
 class IDescriptor 
 {

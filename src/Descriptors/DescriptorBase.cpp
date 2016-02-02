@@ -3,10 +3,12 @@
 
 #define LINE_SIZE 99999
 
+using namespace std;
+
 void DescriptorBase::save(const string filename) const
 {
 	ofstream file;
-	file.open(filename);
+	file.open(filename.c_str());
 	
 	file << getData();
 	
@@ -16,16 +18,16 @@ void DescriptorBase::save(const string filename) const
 void DescriptorBase::load(const string filename)
 {
 	ifstream file;
-	file.open(filename);
-	string data;
+	file.open(filename.c_str());
+	stringstream data;
 	
 	while (!file.eof())
 	{
 		char line[LINE_SIZE];
-		file.getLine(line, LINE_SIZE);
-		data += line + std::endl;
+		file.getline(line, LINE_SIZE);
+		data << line << std::endl;
 	}
 		
-	setData(data);
+	setData(data.str());
 	file.close();
 }

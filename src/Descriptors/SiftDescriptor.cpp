@@ -19,7 +19,7 @@ void SiftDescriptor::setData(string data) const
 	
 }
 
-const SiftDescriptor::vector<KeyPoint>& getKeyPoints() const
+const vector<KeyPoint>& SiftDescriptor::getKeyPoints() const
 {
 	return _keyPoints;
 }

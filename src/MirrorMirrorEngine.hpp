@@ -1,6 +1,8 @@
 #ifndef MIRRORMIRRORENGINE
 #define MIRRORMIRRORENGINE
 
+#include "IIndexer.hpp"
+
 using namespace std;
 
 class MirrorMirrorEngine

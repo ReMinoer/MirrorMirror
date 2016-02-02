@@ -3,6 +3,7 @@
 
 #include <opencv2/core/core.hpp>
 #include <string>
+#include "IIndexer.hpp"
 
 using namespace std;
 using namespace cv;

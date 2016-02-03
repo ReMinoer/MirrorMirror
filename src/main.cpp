@@ -34,7 +34,7 @@ int index(string imagesDirPath)
     
     while ((ent = readdir (dir)) != NULL)
     {
-        if (strstr(ent->d_name, ".png"))
+        if (strstr(ent->d_name, ".jpg"))
         {
             string imageFilename = imagesDirPath + ent->d_name;
             
@@ -58,6 +58,8 @@ int index(string imagesDirPath)
     
     closedir (dir);
     delete indexer;
+    
+    return EXIT_SUCCESS;
 }
 
 int search(string inputImageFilename, string indexerDirPath)
@@ -85,19 +87,21 @@ int search(string inputImageFilename, string indexerDirPath)
 
     delete indexer;
     waitKey(0);
+    
+    return EXIT_SUCCESS;
 }
 
 int main(int argc, char** argv)
 {
-    if (argv[1] == "-index" && argc == 3)
+    if (strcmp(argv[1], "-index") == 0 && argc == 3)
     {
         return index(argv[2]);
     }
-    if (argv[1] == "-search" && argc == 4)
+    else if (strcmp(argv[1], "-search") == 0 && argc == 4)
     {
         return search(argv[2], argv[3]);
     }
     
-	cout <<" Usage: MirrorMirror [-index imagesDirPath | -search inputImageFilename indexerDirPath]" << endl;
-    return -1;
+    cout <<" Usage: MirrorMirror [-index imagesDirPath | -search inputImageFilename indexerDirPath]" << endl;
+    return EXIT_FAILURE;
 }

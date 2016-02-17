@@ -1,3 +1,5 @@
+#include <opencv2/features2d/features2d.hpp>
+//#include <opencv2/nonfree/features2d.hpp>
 #include "SiftDescriptor.hpp"
 
 SiftDescriptor::SiftDescriptor()
@@ -7,8 +9,8 @@ SiftDescriptor::SiftDescriptor()
 
 void SiftDescriptor::compute(const Mat &image)
 {
-	SIFT descri();
-	descri()(image,cv::noArray(),_keyPoints,cv::noArray());
+	//cv::SiftFeatureDetector detector;
+	//detector.detect(image, _keyPoints);
 }
 
 string SiftDescriptor::getData() const
@@ -28,11 +30,17 @@ void SiftDescriptor::setData(string data)
 	_keyPoints.clear();
 	stringstream dataKeyPoints(data);
 	int nbPoints;
-	dataKeyPoints >> nbPoints >> ";";
+	dataKeyPoints >> nbPoints;
+	dataKeyPoints.ignore();
 	for (int i = 0; i < nbPoints; i++)
 	{
 		float x, y, size;
-		dataKeyPoints >> x >> "," >> y >> "," >> size >> ";";
+		dataKeyPoints >> x;
+		dataKeyPoints.ignore();
+ 		dataKeyPoints >> y;
+		dataKeyPoints.ignore();
+		dataKeyPoints >> size;
+		dataKeyPoints.ignore();
 		_keyPoints.push_back(KeyPoint(x,y,size));
 /*
 string dataS = data.substr(maPos,data.find(";"));

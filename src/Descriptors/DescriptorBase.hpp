@@ -7,7 +7,7 @@
 
 class DescriptorBase : public IDescriptor 
 {
-	private:
+	protected:
 		vector<KeyPoint> _keyPoints;
 	public:
 		virtual int size() const;
@@ -15,7 +15,7 @@ class DescriptorBase : public IDescriptor
 		virtual void compute(const Mat &image) = 0;
 		const virtual vector<KeyPoint>* getKeyPoints() const;
 		virtual string getData() const = 0;
-		virtual void setData(string data) const = 0;
+		virtual void setData(string data) = 0;
 		virtual void save(const string filename) const;
 		virtual void load(const string filename);
 };

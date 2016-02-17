@@ -5,6 +5,21 @@
 
 using namespace std;
 
+int DescriptorBase::size() const
+{
+	return _keyPoints.size();
+}
+
+KeyPoint DescriptorBase::operator[] (int i) const
+{
+	return _keyPoints[i];
+}
+
+const vector<KeyPoint>* DescriptorBase::getKeyPoints() const
+{
+	return &_keyPoints;
+}
+
 void DescriptorBase::save(const string filename) const
 {
 	ofstream file;

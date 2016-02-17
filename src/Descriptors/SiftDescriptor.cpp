@@ -42,7 +42,3 @@ string dataS = data.substr(maPos,data.find(";"));
 	}
 }
 
-const vector<KeyPoint>& SiftDescriptor::getKeyPoints() const
-{
-	return _keyPoints;
-}

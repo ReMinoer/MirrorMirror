@@ -10,6 +10,7 @@ add_executable(
         src/MirrorMirrorEngine.hpp
         src/MirrorMirrorEngine.cpp
         src/Indexer.hpp
+        src/Indexer.cpp
         src/IIndexer.hpp
         src/IDescriptor.hpp
         src/Descriptors/DescriptorBase.hpp

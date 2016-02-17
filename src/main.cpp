@@ -15,9 +15,9 @@ using namespace std;
 
 #define INDEXER_FILENAME "MirrorMirrorIndex.txt"
 
-SiftDescriptor siftFactory()
+IDescriptor* siftFactory()
 {
-    return SiftDescriptor();
+    return new SiftDescriptor();
 }
 
 int index(string imagesDirPath)
@@ -52,7 +52,7 @@ int index(string imagesDirPath)
         }
     }
     
-    IIndexer* indexer = new Indexer<SiftDescriptor>(&siftFactory);
+    IIndexer* indexer = new Indexer(&siftFactory);
     indexer->generate(images);
     indexer->save(imagesDirPath + INDEXER_FILENAME);
     
@@ -76,7 +76,7 @@ int search(string inputImageFilename, string indexerDirPath)
     namedWindow("Input", WINDOW_AUTOSIZE);
     imshow("Input", inputImage);
     
-    IIndexer* indexer = new Indexer<SiftDescriptor>(&siftFactory);
+    IIndexer* indexer = new Indexer(&siftFactory);
     indexer->load(indexerDirPath + INDEXER_FILENAME);
     
     MirrorMirrorEngine engine = MirrorMirrorEngine(*indexer);
@@ -93,11 +93,11 @@ int search(string inputImageFilename, string indexerDirPath)
 
 int main(int argc, char** argv)
 {
-    if (strcmp(argv[1], "-index") == 0 && argc == 3)
+    if (argc == 3 && strcmp(argv[1], "-index") == 0)
     {
         return index(argv[2]);
     }
-    else if (strcmp(argv[1], "-search") == 0 && argc == 4)
+    else if (argc == 4 && strcmp(argv[1], "-search") == 0)
     {
         return search(argv[2], argv[3]);
     }

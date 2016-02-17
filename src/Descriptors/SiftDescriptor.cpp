@@ -18,8 +18,3 @@ void SiftDescriptor::setData(string data) const
 {
 	
 }
-
-const vector<KeyPoint>& SiftDescriptor::getKeyPoints() const
-{
-	return _keyPoints;
-}

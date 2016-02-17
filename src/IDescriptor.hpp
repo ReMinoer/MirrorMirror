@@ -2,6 +2,7 @@
 #define IDESCRIPTOR
 
 #include <opencv2/core/core.hpp>
+#include <opencv2/features2d/features2d.hpp>
 #include <string>
 
 using namespace std;
@@ -10,7 +11,10 @@ using namespace cv;
 class IDescriptor 
 {
 	public:
+		virtual int size() const = 0;
+		virtual KeyPoint operator[] (int i) const = 0;
 		virtual void compute(const Mat &image) = 0;
+		virtual const vector<KeyPoint>* getKeyPoints() const = 0;
 		virtual string getData() const = 0;
 		virtual void setData(string data) const = 0;
 		virtual void save(const string filename) const = 0;

@@ -2,6 +2,7 @@
 #define IINDEXER
 
 #include <opencv2/core/core.hpp>
+#include <opencv2/highgui/highgui.hpp>
 #include <string>
 #include "IDescriptor.hpp"
 
@@ -15,7 +16,8 @@ class IIndexer
 		virtual void save(const string filename) const = 0;
 		virtual void load(const string filename) = 0;
 		virtual Mat computeMatrix() = 0;
-		virtual IDescriptor* buildDescriptor(Mat& image) = 0;
+		virtual string getPath(int indice)=0;
+		virtual IDescriptor* buildDescriptor(const Mat& image) = 0;
 };
 
 #endif

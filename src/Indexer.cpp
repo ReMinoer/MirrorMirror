@@ -86,9 +86,23 @@ Mat Indexer::computeMatrix()
 	return result;
 }
 
-IDescriptor* Indexer::buildDescriptor(Mat& image)
+IDescriptor* Indexer::buildDescriptor(const Mat& image)
 {
 	IDescriptor* descriptor = _factory();
 	descriptor->compute(image);
 	return descriptor;
+}
+
+string Indexer::getPath(int indice)
+{
+	std::map<string,IDescriptor*>::iterator it;
+	int i =0;
+	for(it = _descriptors.begin();it != _descriptors.end();it++)
+	{
+		if(i=indice)
+			return it->first;
+		else
+			i++;
+	}
+	return NULL;
 }

@@ -6,14 +6,27 @@ MirrorMirrorEngine::MirrorMirrorEngine(IIndexer& indexer)
 {
 }
 
-Mat* MirrorMirrorEngine::search(const Mat& imageRequest) const
+void MirrorMirrorEngine::search(const Mat& imageRequest, std::vector<cv::Mat> & images) const
 {
-	cv::flann::LinearIndexParams params;
-	//cv::flann::Index_<Vector3f> index(_indexer->computeMatrix(), params);
+	//std::map<std::basic_string<char>, cvflann::any> params;
+	cv::flann::Index index(_indexer->computeMatrix(), cv::flann::KDTreeIndexParams(4));
 	
-	//index.radiusSearch(_indexer.buildDescriptor().getKeyPoints(), vector<int>& indices, vector<float>& dists, float radius, const SearchParams& params)
+	vector<int> indices;
+	vector<float> dists;
+	double radius = 5.0;
+	int maxResult = 5;
+	index.radiusSearch(_indexer->buildDescriptor(imageRequest)->getVec3f(), indices, dists, radius, maxResult);
+	string filename = _indexer->getPath(indices[0]);
 	
-	return NULL;
+	Mat image;
+  image = imread(filename, CV_LOAD_IMAGE_COLOR);
+            
+  if (!image.data)
+  {
+      cout << filename << "can't be find or open" << std::endl;
+  }
+  else
+  	images.push_back(image);
 }
 
 const IIndexer& MirrorMirrorEngine::getIndexer() const

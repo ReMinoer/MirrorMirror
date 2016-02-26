@@ -80,10 +80,11 @@ int search(string inputImageFilename, string indexerDirPath)
     indexer->load(indexerDirPath + INDEXER_FILENAME);
     
     MirrorMirrorEngine engine = MirrorMirrorEngine(*indexer);
-    Mat* result = engine.search(inputImage);
+    std::vector<cv::Mat> images;
+    engine.search(inputImage,images);
     
     namedWindow("Output", WINDOW_AUTOSIZE);
-    imshow("Output", *result);
+    imshow("Output", images[0]);
 
     delete indexer;
     waitKey(0);

@@ -2,6 +2,7 @@
 #define MIRRORMIRRORENGINE
 
 #include "IIndexer.hpp"
+#include "opencv2/flann/flann.hpp"
 
 using namespace std;
 
@@ -11,7 +12,7 @@ class MirrorMirrorEngine
 		IIndexer* _indexer;
 	public:
 		MirrorMirrorEngine(IIndexer& indexer);
-		Mat* search(const Mat &request) const;
+		void search(const Mat &request, std::vector<cv::Mat> & images) const;
 		const IIndexer& getIndexer() const;
 		void setIndexer(const IIndexer& indexer);
 };

@@ -14,6 +14,7 @@ class DescriptorBase : public IDescriptor
 		virtual KeyPoint operator[] (int i) const;
 		virtual void compute(const Mat &image) = 0;
 		const virtual vector<KeyPoint>* getKeyPoints() const;
+		const virtual vector<cv::Vec3f> getVec3f();
 		virtual string getData() const = 0;
 		virtual void setData(string data) = 0;
 		virtual void save(const string filename) const;

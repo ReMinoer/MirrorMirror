@@ -24,8 +24,9 @@ class Indexer : public IIndexer
 		virtual void generate(const map<string, Mat> &images);
 		virtual void save(const string filename) const;
 		virtual void load(const string filename);
-		virtual Mat computeMatrix();
-		virtual IDescriptor* buildDescriptor(Mat& image);
+		virtual cv::Mat computeMatrix();
+		virtual IDescriptor* buildDescriptor(const Mat& image);
+		virtual string getPath(int indice);
 };
 
 #endif

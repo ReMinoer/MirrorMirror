@@ -20,6 +20,16 @@ const vector<KeyPoint>* DescriptorBase::getKeyPoints() const
 	return &_keyPoints;
 }
 
+const  vector<cv::Vec3f> DescriptorBase::getVec3f()
+{
+	vector<cv::Vec3f> keypoints;
+	for(int i=0;i<_keyPoints.size();i++)
+	{
+		keypoints.push_back(Vec3f(_keyPoints[i].pt.x, _keyPoints[i].pt.y, _keyPoints[i].size));
+	}
+	return keypoints;
+}
+
 void DescriptorBase::save(const string filename) const
 {
 	ofstream file;

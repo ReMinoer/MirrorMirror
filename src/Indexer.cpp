@@ -1,5 +1,6 @@
 #include <opencv2/core/core.hpp>
 #include <string>
+#include <iostream>
 #include "Indexer.hpp"
 
 using namespace std;
@@ -46,22 +47,23 @@ void Indexer::load(const string filename)
 	ifstream file;
 	file.open(filename.c_str());
 	
-	stringstream currentData;
 	while (!file.eof())
 	{
 		char line[LINE_SIZE];
+		string filename;
+		string descriptorData;
+		
+		file.getline(line, LINE_SIZE);
+		filename = line;
+		
+		file.getline(line, LINE_SIZE);
+		descriptorData = line;
+		
 		file.getline(line, LINE_SIZE);
 		
-		if (strstr(line, DESCRIPTOR_DATA_END))
-		{
-			IDescriptor* descriptor = _factory();
-			descriptor->setData(currentData.str());
-			currentData.clear();
-		}
-		else
-		{
-			currentData << line << std::endl;
-		}
+		IDescriptor* descriptor = _factory();
+		descriptor->setData(descriptorData);
+		_descriptors[filename] = descriptor;
 	}
 	
 	file.close();
@@ -69,20 +71,22 @@ void Indexer::load(const string filename)
 
 Mat Indexer::computeMatrix()
 {
-	int dimensions = _descriptors.begin()->second->size();
+	std::cout << "ComputeMatrix: Begin"<<	std::endl;
+	map<string, IDescriptor*>::iterator it = _descriptors.begin();
+	int dimensions = it->second->size();
 	Mat result(dimensions, (int)_descriptors.size(), CV_32FC3);
-	
 	for (int i = 0; i < dimensions; i++)
 	{
 		int j = 0;
 		for (typename map<string, IDescriptor*>::const_iterator it = _descriptors.begin(); it != _descriptors.end(); it++)
 		{
+			//std::cout <<"i: " <<i<< ", j: "<<j<<std::endl;
 			KeyPoint keyPoint = (*it->second)[i];
 			result.at<Vec3f>(i, j) = Vec3f(keyPoint.pt.x, keyPoint.pt.y, keyPoint.size);
 			j++;
 		}
 	}
-			
+	std::cout << "ComputeMatrix: End"<< std::endl;
 	return result;
 }
 

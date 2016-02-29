@@ -43,7 +43,7 @@ int index(string imagesDirPath)
             
             if (!image.data)
             {
-                cout << imageFilename << "can't be find or open" << std::endl;
+                cout << imageFilename << " can't be find or open" << std::endl;
                 closedir (dir);
                 return EXIT_FAILURE;
             }

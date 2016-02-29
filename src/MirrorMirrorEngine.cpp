@@ -8,14 +8,17 @@ MirrorMirrorEngine::MirrorMirrorEngine(IIndexer& indexer)
 
 void MirrorMirrorEngine::search(const Mat& imageRequest, std::vector<cv::Mat> & images) const
 {
+	cout << "MirrorEngine" << std::endl;
 	//std::map<std::basic_string<char>, cvflann::any> params;
 	cv::flann::Index index(_indexer->computeMatrix(), cv::flann::KDTreeIndexParams(4));
-	
-	vector<int> indices;
-	vector<float> dists;
+	cout << "RadiusSearch" << std::endl;
+	vector<int> indices (20);
+	vector<float> dists (20);
 	double radius = 5.0;
 	int maxResult = 5;
+	
 	index.radiusSearch(_indexer->buildDescriptor(imageRequest)->getVec3f(), indices, dists, radius, maxResult);
+	cout << "RadiusSearch" << std::endl;
 	string filename = _indexer->getPath(indices[0]);
 	
 	Mat image;

@@ -25,7 +25,6 @@ string SiftDescriptor::getData() const
 	{
 		dataKeyPoints << _keyPoints[i].pt.x << " " << _keyPoints[i].pt.y << " " << _keyPoints[i].size << " ";
 	}
-	//dataKeyPoints << "!";
 	return dataKeyPoints.str();
 }
 

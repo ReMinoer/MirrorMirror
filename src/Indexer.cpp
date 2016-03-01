@@ -20,7 +20,9 @@ void Indexer::generate(const map<string, Mat> &images)
 		
 		IDescriptor* descriptor = _factory();
 		descriptor->compute(image);
-		_descriptors.insert(std::pair<string, IDescriptor*>(filename, descriptor));
+		
+		if (descriptor->size() == 20)
+			_descriptors.insert(std::pair<string, IDescriptor*>(filename, descriptor));
 	}
 }
 
@@ -29,6 +31,7 @@ void Indexer::save(const string filename) const
 	ofstream file;
 	file.open(filename.c_str());
 	
+	file << _descriptors.size() << endl;
 	for (typename map<string, IDescriptor*>::const_iterator it = _descriptors.begin(); it != _descriptors.end(); it++)
 	{
 		string filename = it->first;
@@ -47,7 +50,11 @@ void Indexer::load(const string filename)
 	ifstream file;
 	file.open(filename.c_str());
 	
-	while (!file.eof())
+	int descriptorsCount;
+	file >> descriptorsCount;
+	file.ignore();
+	
+	for (int i = 0; i < descriptorsCount; i++)
 	{
 		char line[LINE_SIZE];
 		string filename;
@@ -73,14 +80,14 @@ Mat Indexer::computeMatrix()
 {
 	std::cout << "ComputeMatrix: Begin"<<	std::endl;
 	map<string, IDescriptor*>::iterator it = _descriptors.begin();
-	int dimensions = it->second->size();
+	int dimensions = it->second->size() * 3;
 	Mat result(dimensions, (int)_descriptors.size(), CV_32FC3);
 	for (int i = 0; i < dimensions; i++)
 	{
 		int j = 0;
 		for (typename map<string, IDescriptor*>::const_iterator it = _descriptors.begin(); it != _descriptors.end(); it++)
 		{
-			//std::cout <<"i: " <<i<< ", j: "<<j<<std::endl;
+			std::cout <<"i: " <<i<< ", j: "<<j<<std::endl;
 			KeyPoint keyPoint = (*it->second)[i];
 			result.at<Vec3f>(i, j) = Vec3f(keyPoint.pt.x, keyPoint.pt.y, keyPoint.size);
 			j++;
